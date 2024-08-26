@@ -9,7 +9,7 @@ spec:
       image: python:3.12
   - name: fan-out
     container:
-      image: alpine:3.6
+      image: alpine:3.7
   - name: fan-in
     container:
       image: alpine:3.6
