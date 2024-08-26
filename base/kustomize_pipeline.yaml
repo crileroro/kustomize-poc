@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: kustomize-pipeline
+spec:
+  serviceAccountName: playground
+  entrypoint: init
+  templates:
+  - name: init
+    dag:
+      tasks:
+        - name: generate
+          template: generate
+          arguments:
+            parameters:
+              - name: iterations
+                value: 1
+        - name: fan-out
+          template: fan-out
+          arguments:
+            parameters:
+            - name: number
+              value: "{{item}}"
+          withParam: "{{tasks.generate.outputs.result}}"
+          depends: generate
+        - name: fan-in
+          template: fan-in
+          arguments:
+            parameters:
+            - name: numbers
+              value: "{{tasks.fan-out.outputs.parameters}}"
+          depends: fan-out

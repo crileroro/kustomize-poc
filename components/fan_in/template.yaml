@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: kustomize-pipeline
+spec:
+  templates:
+    - name: fan-in
+      inputs:
+        parameters:
+          - name: numbers
+      container:
+        image: alpine:latest
+        command: [sh, -c]
+        args: ["exit 1"]

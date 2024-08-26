@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: kustomize-pipeline
+spec:
+  templates:
+    - name: fan-out
+      inputs:
+        parameters:
+        - name: number
+      container:
+        image: alpine:latest
+        command: [sh, -c]
+        args: ["echo {{inputs.parameters.number}} > /tmp/number.txt"]
+      outputs:
+        parameters:
+          - name: number
+            valueFrom:
+              path: /tmp/number.txt

@@ -1,0 +1,97 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: kustomize-pipeline
+spec:
+  metrics:
+    prometheus:
+      - name: custom_workflow_result_count
+        help: "Count of Worklfow results by status"
+        labels:
+          - key: workflow_name
+            value: "{{workflow.labels.workflows.argoproj.io/workflow-template}}"
+          - key: status
+            value: "{{workflow.status}}"
+          - key: workflow_namespace
+            value: "{{workflow.namespace}}"
+        counter:
+          value: "1"
+      - name: custom_workflow_duration_gauge
+        help: "Duration gauge by workflow name"
+        labels:
+          - key: workflow_name
+            value: "{{workflow.labels.workflows.argoproj.io/workflow-template}}"
+          - key: workflow_namespace
+            value: "{{workflow.namespace}}"
+        gauge:
+          value: "{{workflow.duration}}"
+  templates:
+  - name: generate
+    metrics:
+      prometheus:
+        - name: custom_template_result_count
+          help: "Count of Template execution by result status"
+          labels:
+            - key: workflow_name
+              value: "{{workflow.labels.workflows.argoproj.io/workflow-template}}"
+            - key: template_name
+              value: generate
+            - key: status
+              value: "{{status}}"
+          counter:
+            value: "1"
+        - name: custom_template_duration_gauge
+          help: "Duration gauge by template name"
+          labels:
+            - key: workflow_name
+              value: "{{workflow.labels.workflows.argoproj.io/workflow-template}}"
+            - key: template_name
+              value: generate
+          gauge:
+            value: "{{duration}}"
+  - name: fan-out
+    metrics:
+      prometheus:
+        - name: custom_template_result_count
+          help: "Count of Template execution by result status"
+          labels:
+            - key: workflow_name
+              value: "{{workflow.labels.workflows.argoproj.io/workflow-template}}"
+            - key: template_name
+              value: fan-out
+            - key: status
+              value: "{{status}}"
+          counter:
+            value: "1"
+        - name: custom_template_duration_gauge
+          help: "Duration gauge by template name"
+          labels:
+            - key: workflow_name
+              value: "{{workflow.labels.workflows.argoproj.io/workflow-template}}"
+            - key: template_name
+              value: fan-out
+          gauge:
+            value: "{{duration}}"
+  - name: fan-in
+    metrics:
+      prometheus:
+        - name: custom_template_result_count
+          help: "Count of Template execution by result status"
+          labels:
+            - key: workflow_name
+              value: "{{workflow.labels.workflows.argoproj.io/workflow-template}}"
+            - key: template_name
+              value: fan-in
+            - key: status
+              value: "{{status}}"
+          counter:
+            value: "1"
+        - name: custom_template_duration_gauge
+          help: "Duration gauge by template name"
+          labels:
+            - key: workflow_name
+              value: "{{workflow.labels.workflows.argoproj.io/workflow-template}}"
+            - key: template_name
+              value: fan-in
+          gauge:
+            value: "{{duration}}"

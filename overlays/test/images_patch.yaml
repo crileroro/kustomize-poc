@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: test-pipeline
+spec:
+  templates:
+  - name: generate
+    script:
+      image: python:latest
+  - name: fan-out
+    container:
+      image: alpine:latest
+  - name: fan-in
+    container:
+      image: alpine:latest
