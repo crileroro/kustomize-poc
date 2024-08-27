@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: test
 resources:
   - ../../base
+  - example-secrets.enc.yaml
 
 patches:
   - path: images_patch.yaml
