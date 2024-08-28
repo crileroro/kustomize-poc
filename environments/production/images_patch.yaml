@@ -6,7 +6,7 @@ spec:
   templates:
   - name: generate
     script:
-      image: python:3.9
+      image: python:3.12
   - name: fan-out
     container:
       image: alpine:3.2
