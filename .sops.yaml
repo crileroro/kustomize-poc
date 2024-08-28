@@ -1,5 +1,9 @@
 creation_rules:
-  - path_regex: example-secrets.enc.yaml
+  - path_regex: environments/*
+    key_groups:
+      - pgp:
+        - 14420BDF235CFF5340EA7E7C777F95B5D0D29C34
+  - path_regex: dev-namespaces/*
     key_groups:
       - pgp:
         - 14420BDF235CFF5340EA7E7C777F95B5D0D29C34
